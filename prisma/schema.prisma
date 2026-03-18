@@ -1,0 +1,333 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String           @id @default(cuid())
+  email             String           @unique
+  name              String?
+  role              String           @default("USER")
+  isActive          Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  companyProfile    CompanyProfile?
+  subscriptions     Subscription[]
+  clients           Client[]
+  serviceCategories ServiceCategory[]
+  serviceItems      ServiceItem[]
+  offers            Offer[]
+  activatedKeys     LicenseKey[]     @relation("ActivatedKeys")
+  adminCreatedKeys  LicenseKey[]     @relation("AdminCreatedKeys")
+  offerVersions     OfferVersion[]
+  adminLogs         AdminLog[]
+}
+
+model CompanyProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  companyName   String
+  ownerName     String?
+  addressLine1  String?
+  postalCode    String?
+  city          String?
+  country       String?  @default("Deutschland")
+  phone         String?
+  email         String?
+  vatNumber     String?
+  taxNumber     String?
+  iban          String?
+  bic           String?
+  bankName      String?
+  logoUrl       String?
+  defaultFooter String?
+  legalText     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  offers        Offer[]
+}
+
+model Plan {
+  id              String         @id @default(cuid())
+  code            String         @unique
+  name            String
+  durationMonths  Int
+  deviceLimit     Int
+  priceCents      Int
+  currency        String         @default("EUR")
+  billingProvider String         @default("license_key")
+  stripePriceId   String?
+  isActive        Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  subscriptions   Subscription[]
+  licenseKeys     LicenseKey[]
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String
+  planId               String
+  source               String
+  status               String   @default("ACTIVE")
+  startsAt             DateTime
+  endsAt               DateTime
+  autoRenew            Boolean  @default(false)
+  stripeSubscriptionId String?
+  licenseKeyId         String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                 Plan     @relation(fields: [planId], references: [id])
+  deviceActivations    DeviceActivation[]
+}
+
+model LicenseKey {
+  id                String   @id @default(cuid())
+  planId            String
+  codeHash          String   @unique
+  codePreview       String
+  status            String   @default("AVAILABLE")
+  maxActivations    Int      @default(1)
+  activationCount   Int      @default(0)
+  validUntil        DateTime?
+  issuedToEmail     String?
+  createdByAdminId  String?
+  activatedByUserId String?
+  activatedAt       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  plan              Plan     @relation(fields: [planId], references: [id])
+  createdByAdmin    User?    @relation("AdminCreatedKeys", fields: [createdByAdminId], references: [id])
+  activatedByUser   User?    @relation("ActivatedKeys", fields: [activatedByUserId], references: [id])
+}
+
+model DeviceActivation {
+  id                String   @id @default(cuid())
+  subscriptionId    String
+  userId            String
+  deviceFingerprint String
+  deviceName        String?
+  userAgent         String?
+  ipAddress         String?
+  lastSeenAt        DateTime?
+  isActive          Boolean  @default(true)
+  activatedAt       DateTime @default(now())
+  deactivatedAt     DateTime?
+
+  subscription      Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+}
+
+model Client {
+  id              String   @id @default(cuid())
+  userId          String
+  type            String   @default("private")
+  name            String
+  email           String?
+  phone           String?
+  addressLine1    String?
+  postalCode      String?
+  city            String?
+  country         String?  @default("Deutschland")
+  projectLocation String?
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  offers          Offer[]
+}
+
+model MasterServiceCategory {
+  id         String                  @id @default(cuid())
+  name       String
+  slug       String                  @unique
+  sortOrder  Int                     @default(0)
+  isActive   Boolean                 @default(true)
+  createdAt  DateTime                @default(now())
+  updatedAt  DateTime                @updatedAt
+
+  templates  MasterServiceTemplate[]
+}
+
+model MasterServiceTemplate {
+  id                String                 @id @default(cuid())
+  categoryId        String
+  slug              String                 @unique
+  title             String
+  description       String?
+  unit              String
+  vatPercent        Int                    @default(19)
+  keywordsText      String
+  synonymsText      String?
+  offerTextTemplate String?
+  requiresQuantity  Boolean                @default(true)
+  defaultSortOrder  Int                    @default(0)
+  isActive          Boolean                @default(true)
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  category          MasterServiceCategory  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  serviceItems      ServiceItem[]
+}
+
+model ServiceCategory {
+  id         String   @id @default(cuid())
+  userId     String
+  name       String
+  sortOrder  Int      @default(0)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items      ServiceItem[]
+}
+
+model ServiceItem {
+  id                String                 @id @default(cuid())
+  userId            String
+  categoryId        String?
+  sourceTemplateId  String?
+  title             String
+  description       String?
+  unit              String
+  unitPriceCents    Int                    @default(0)
+  vatPercent        Int                    @default(19)
+  keywordsText      String
+  synonymsText      String?
+  offerTextTemplate String?
+  requiresQuantity  Boolean                @default(true)
+  sortOrder         Int                    @default(0)
+  usageCount        Int                    @default(0)
+  isFavorite        Boolean                @default(false)
+  isArchived        Boolean                @default(false)
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+
+  user              User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category          ServiceCategory?       @relation(fields: [categoryId], references: [id])
+  sourceTemplate    MasterServiceTemplate? @relation(fields: [sourceTemplateId], references: [id])
+  offerItems        OfferItem[]
+}
+
+model Offer {
+  id               String       @id @default(cuid())
+  userId           String
+  clientId         String
+  companyProfileId String?
+  offerNumber      String       @unique
+  title            String
+  subject          String
+  sourceText       String?
+  introText        String?
+  status           String       @default("DRAFT")
+  currency         String       @default("EUR")
+  subtotalCents    Int          @default(0)
+  vatPercent       Int          @default(19)
+  vatAmountCents   Int          @default(0)
+  totalCents       Int          @default(0)
+  validUntil       DateTime?
+  paymentTerms     String?
+  notes            String?
+  footerText       String?
+  currentVersion   Int          @default(1)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client           Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  companyProfile   CompanyProfile? @relation(fields: [companyProfileId], references: [id])
+  items            OfferItem[]
+  versions         OfferVersion[]
+  pdfDocuments     PDFDocument[]
+  emailDeliveries  EmailDelivery[]
+}
+
+model OfferItem {
+  id                String   @id @default(cuid())
+  offerId           String
+  serviceItemId     String?
+  position          Int
+  title             String
+  description       String?
+  quantity          Float?
+  unit              String
+  unitPriceCents    Int
+  discountCents     Int      @default(0)
+  totalCents        Int      @default(0)
+  vatPercent        Int      @default(19)
+  matchSource       String   @default("MANUAL")
+  needsConfirmation Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  offer             Offer       @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  serviceItem       ServiceItem? @relation(fields: [serviceItemId], references: [id])
+}
+
+model OfferVersion {
+  id              String   @id @default(cuid())
+  offerId         String
+  versionNumber   Int
+  snapshotJson    String
+  createdByUserId String
+  changeNote      String?
+  createdAt       DateTime @default(now())
+
+  offer           Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  createdByUser   User     @relation(fields: [createdByUserId], references: [id])
+}
+
+model PDFDocument {
+  id           String   @id @default(cuid())
+  offerId      String
+  offerVersion Int
+  storageUrl   String
+  fileName     String
+  mimeType     String   @default("application/pdf")
+  fileSize     Int      @default(0)
+  generatedAt  DateTime @default(now())
+
+  offer        Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+}
+
+model EmailDelivery {
+  id                String   @id @default(cuid())
+  offerId           String
+  pdfDocumentId     String?
+  recipientEmail    String
+  ccEmail           String?
+  subject           String
+  body              String
+  status            String   @default("PENDING")
+  provider          String?
+  providerMessageId String?
+  errorMessage      String?
+  sentAt            DateTime?
+  createdAt         DateTime @default(now())
+
+  offer             Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+}
+
+model AdminLog {
+  id           String   @id @default(cuid())
+  adminUserId  String
+  action       String
+  entityType   String?
+  entityId     String?
+  metadataJson String?
+  createdAt    DateTime @default(now())
+
+  adminUser    User     @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+}
