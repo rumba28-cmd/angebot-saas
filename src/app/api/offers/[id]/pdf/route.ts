@@ -4,22 +4,33 @@ import { getDemoUser } from "@/lib/demo-user";
 import { requireActiveSubscription } from "@/lib/access";
 import { buildOfferPdf } from "@/lib/pdf";
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+export async function GET(
+  _: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     const user = await getDemoUser();
     await requireActiveSubscription(user.id);
 
     const offer = await prisma.offer.findFirst({
-      where: { id: params.id, userId: user.id },
+      where: {
+        id: params.id,
+        userId: user.id
+      },
       include: {
-        items: true,
+        items: {
+          orderBy: { position: "asc" }
+        },
         client: true,
         companyProfile: true
       }
     });
 
     if (!offer) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json({ error: "Offer not found" }, { status: 404 });
     }
 
     const buffer = await buildOfferPdf(offer);
@@ -41,6 +52,10 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
       }
     });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "PDF failed" }, { status: 400 });
+    console.error("PDF route error:", e);
+    return NextResponse.json(
+      { error: e?.message || "PDF generation failed" },
+      { status: 500 }
+    );
   }
 }

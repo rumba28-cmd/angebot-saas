@@ -17,14 +17,25 @@ function calculateTotals(items: { totalCents: number }[], vatPercent = 19) {
 }
 
 export async function GET() {
-  const user = await getDemoUser();
-  const offers = await prisma.offer.findMany({
-    where: { userId: user.id },
-    include: { client: true, items: true },
-    orderBy: { createdAt: "desc" }
-  });
+  try {
+    const user = await getDemoUser();
 
-  return NextResponse.json(offers);
+    const offers = await prisma.offer.findMany({
+      where: { userId: user.id },
+      include: { client: true, items: true },
+      orderBy: { createdAt: "desc" }
+    });
+
+    return NextResponse.json(offers);
+  } catch (e: any) {
+    console.error("GET /api/offers error:", e);
+    return NextResponse.json(
+      {
+        error: e?.message || "Failed to load offers"
+      },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -33,6 +44,15 @@ export async function POST(req: NextRequest) {
     await requireActiveSubscription(user.id);
 
     const body = await req.json();
+
+    if (!body?.clientId) {
+      return NextResponse.json({ error: "clientId is required" }, { status: 400 });
+    }
+
+    if (!body?.text || typeof body.text !== "string") {
+      return NextResponse.json({ error: "text is required" }, { status: 400 });
+    }
+
     const catalog = await prisma.serviceItem.findMany({
       where: {
         userId: user.id,
@@ -41,20 +61,35 @@ export async function POST(req: NextRequest) {
       orderBy: [{ isFavorite: "desc" }, { usageCount: "desc" }, { sortOrder: "asc" }]
     });
 
+    if (catalog.length === 0) {
+      return NextResponse.json(
+        { error: "Ihr Preiskatalog ist leer. Bitte zuerst Leistungen anlegen." },
+        { status: 400 }
+      );
+    }
+
     const matches = matchServicesToText(body.text, catalog).slice(0, 10);
 
     if (matches.length === 0) {
-      return NextResponse.json({ error: "Keine passenden Leistungen gefunden" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Keine passenden Leistungen im Preiskatalog gefunden" },
+        { status: 400 }
+      );
     }
 
-    const count = await prisma.offer.count({ where: { userId: user.id } });
-    const company = await prisma.companyProfile.findUnique({ where: { userId: user.id } });
+    const count = await prisma.offer.count({
+      where: { userId: user.id }
+    });
+
+    const company = await prisma.companyProfile.findUnique({
+      where: { userId: user.id }
+    });
 
     const preparedItems = matches.map((m, index) => ({
       serviceItemId: m.serviceItem.id,
       position: index + 1,
       title: m.serviceItem.title,
-      description: m.serviceItem.description,
+      description: m.serviceItem.description ?? null,
       quantity: m.quantity,
       unit: m.serviceItem.unit,
       unitPriceCents: m.serviceItem.unitPriceCents,
@@ -70,7 +105,7 @@ export async function POST(req: NextRequest) {
       data: {
         userId: user.id,
         clientId: body.clientId,
-        companyProfileId: company?.id,
+        companyProfileId: company?.id || null,
         offerNumber: buildOfferNumber(count + 1),
         title: "Angebot",
         subject: "Angebot für angefragte Bauleistungen",
@@ -86,7 +121,10 @@ export async function POST(req: NextRequest) {
           create: preparedItems
         }
       },
-      include: { items: true, client: true }
+      include: {
+        items: true,
+        client: true
+      }
     });
 
     await prisma.offerVersion.create({
@@ -110,6 +148,13 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ id: offer.id });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Failed to create offer" }, { status: 400 });
+    console.error("POST /api/offers error:", e);
+
+    return NextResponse.json(
+      {
+        error: e?.message || "Failed to create offer"
+      },
+      { status: 500 }
+    );
   }
 }
