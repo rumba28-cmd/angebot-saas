@@ -138,6 +138,7 @@ export function OfferEditor({ offerId }: { offerId: string }) {
   const [offer, setOffer] = useState<Offer | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [creatingInvoice, setCreatingInvoice] = useState(false);
   const [error, setError] = useState("");
 
   async function load() {
@@ -234,7 +235,10 @@ export function OfferEditor({ offerId }: { offerId: string }) {
         validUntil: offer.validUntil || null,
         items: offer.items.map((item) => ({
           ...item,
-          quantity: item.quantity === null || item.quantity === undefined ? null : Number(item.quantity),
+          quantity:
+            item.quantity === null || item.quantity === undefined
+              ? null
+              : Number(item.quantity),
           unitPriceCents: Number(item.unitPriceCents)
         }))
       };
@@ -262,6 +266,37 @@ export function OfferEditor({ offerId }: { offerId: string }) {
     }
   }
 
+  async function createInvoiceFromOffer() {
+    try {
+      setCreatingInvoice(true);
+
+      const res = await fetch("/api/invoices/from-offer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          offerId,
+          type: "STANDARD"
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Fehler beim Erstellen der Rechnung");
+        return;
+      }
+
+      window.location.href = `/invoices/${data.id}`;
+    } catch (e) {
+      console.error(e);
+      alert("Fehler beim Erstellen der Rechnung");
+    } finally {
+      setCreatingInvoice(false);
+    }
+  }
+
   if (loading) return <div className="card">Lade Angebot...</div>;
   if (error && !offer) return <div className="card error-box">{error}</div>;
   if (!offer) return <div className="card">Angebot nicht gefunden.</div>;
@@ -278,13 +313,23 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                   {offer.offerNumber || "—"} · Status: {offer.status}
                 </div>
               </div>
+
               <div className="row">
                 <button onClick={save} disabled={saving}>
                   {saving ? "Speichern..." : "Speichern"}
                 </button>
-                <a className="button-link" href={`/api/offers/${offerId}/pdf`} target="_blank">
+
+                <a
+                  className="button-link"
+                  href={`/api/offers/${offerId}/pdf`}
+                  target="_blank"
+                >
                   PDF herunterladen
                 </a>
+
+                <button onClick={createInvoiceFromOffer} disabled={creatingInvoice}>
+                  {creatingInvoice ? "Erstelle Rechnung..." : "Rechnung erstellen"}
+                </button>
               </div>
             </div>
 
@@ -436,27 +481,41 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                   <strong>{offer.companyProfile?.companyName || "Ihre Firma"}</strong>
                   <div>{offer.companyProfile?.addressLine1 || ""}</div>
                   <div>
-                    {[offer.companyProfile?.postalCode, offer.companyProfile?.city].filter(Boolean).join(" ")}
+                    {[
+                      offer.companyProfile?.postalCode,
+                      offer.companyProfile?.city
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
                   </div>
                   <div>{offer.companyProfile?.email || ""}</div>
                   <div>{offer.companyProfile?.phone || ""}</div>
                 </div>
 
                 <div className="preview-meta">
-                  <div><strong>Angebot</strong></div>
+                  <div>
+                    <strong>Angebot</strong>
+                  </div>
                   <div>{offer.offerNumber || "—"}</div>
                   {offer.validUntil && (
-                    <div>Gültig bis: {new Date(offer.validUntil).toLocaleDateString("de-DE")}</div>
+                    <div>
+                      Gültig bis:{" "}
+                      {new Date(offer.validUntil).toLocaleDateString("de-DE")}
+                    </div>
                   )}
                 </div>
               </div>
 
               <div className="preview-client">
-                <div><strong>An:</strong></div>
+                <div>
+                  <strong>An:</strong>
+                </div>
                 <div>{offer.client?.name || ""}</div>
                 <div>{offer.client?.addressLine1 || ""}</div>
                 <div>
-                  {[offer.client?.postalCode, offer.client?.city].filter(Boolean).join(" ")}
+                  {[offer.client?.postalCode, offer.client?.city]
+                    .filter(Boolean)
+                    .join(" ")}
                 </div>
                 {offer.client?.projectLocation && (
                   <div>Projektort: {offer.client.projectLocation}</div>
@@ -488,11 +547,17 @@ export function OfferEditor({ offerId }: { offerId: string }) {
                     <tr key={item.id}>
                       <td>{index + 1}</td>
                       <td>
-                        <div><strong>{item.title}</strong></div>
-                        {item.description && <div className="muted small">{item.description}</div>}
+                        <div>
+                          <strong>{item.title}</strong>
+                        </div>
+                        {item.description && (
+                          <div className="muted small">{item.description}</div>
+                        )}
                       </td>
                       <td>
-                        {item.quantity !== null ? `${item.quantity} ${formatUnit(item.unit)}` : "prüfen"}
+                        {item.quantity !== null
+                          ? `${item.quantity} ${formatUnit(item.unit)}`
+                          : "prüfen"}
                       </td>
                       <td>{formatMoney(item.unitPriceCents)}</td>
                       <td>{formatMoney(item.totalCents)}</td>
@@ -503,7 +568,9 @@ export function OfferEditor({ offerId }: { offerId: string }) {
 
               <div className="preview-totals">
                 <div>Zwischensumme: {formatMoney(previewTotals.subtotalCents)}</div>
-                <div>MwSt. ({offer.vatPercent}%): {formatMoney(previewTotals.vatAmountCents)}</div>
+                <div>
+                  MwSt. ({offer.vatPercent}%): {formatMoney(previewTotals.vatAmountCents)}
+                </div>
                 <div className="preview-total-main">
                   Gesamt: {formatMoney(previewTotals.totalCents)}
                 </div>

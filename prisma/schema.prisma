@@ -22,6 +22,7 @@ model User {
   serviceCategories ServiceCategory[]
   serviceItems      ServiceItem[]
   offers            Offer[]
+  invoices          Invoice[]
   activatedKeys     LicenseKey[]     @relation("ActivatedKeys")
   adminCreatedKeys  LicenseKey[]     @relation("AdminCreatedKeys")
   offerVersions     OfferVersion[]
@@ -52,6 +53,7 @@ model CompanyProfile {
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   offers        Offer[]
+  invoices      Invoice[]
 }
 
 model Plan {
@@ -146,6 +148,7 @@ model Client {
 
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   offers          Offer[]
+  invoices        Invoice[]
 }
 
 model MasterServiceCategory {
@@ -219,43 +222,45 @@ model ServiceItem {
   category          ServiceCategory?       @relation(fields: [categoryId], references: [id])
   sourceTemplate    MasterServiceTemplate? @relation(fields: [sourceTemplateId], references: [id])
   offerItems        OfferItem[]
+  invoiceItems      InvoiceItem[]
 }
 
 model Offer {
-  id               String       @id @default(cuid())
+  id               String          @id @default(cuid())
   userId           String
   clientId         String
   companyProfileId String?
-  offerNumber      String       @unique
+  offerNumber      String          @unique
   title            String
   subject          String
   sourceText       String?
   introText        String?
-  status           String       @default("DRAFT")
-  currency         String       @default("EUR")
-  subtotalCents    Int          @default(0)
-  vatPercent       Int          @default(19)
-  vatAmountCents   Int          @default(0)
-  totalCents       Int          @default(0)
+  status           String          @default("DRAFT")
+  currency         String          @default("EUR")
+  subtotalCents    Int             @default(0)
+  vatPercent       Int             @default(19)
+  vatAmountCents   Int             @default(0)
+  totalCents       Int             @default(0)
   validUntil       DateTime?
   paymentTerms     String?
   notes            String?
   footerText       String?
-  currentVersion   Int          @default(1)
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  currentVersion   Int             @default(1)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
 
-  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  client           Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client           Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
   companyProfile   CompanyProfile? @relation(fields: [companyProfileId], references: [id])
   items            OfferItem[]
   versions         OfferVersion[]
   pdfDocuments     PDFDocument[]
   emailDeliveries  EmailDelivery[]
+  invoices         Invoice[]
 }
 
 model OfferItem {
-  id                String   @id @default(cuid())
+  id                String       @id @default(cuid())
   offerId           String
   serviceItemId     String?
   position          Int
@@ -264,15 +269,15 @@ model OfferItem {
   quantity          Float?
   unit              String
   unitPriceCents    Int
-  discountCents     Int      @default(0)
-  totalCents        Int      @default(0)
-  vatPercent        Int      @default(19)
-  matchSource       String   @default("MANUAL")
-  needsConfirmation Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  discountCents     Int          @default(0)
+  totalCents        Int          @default(0)
+  vatPercent        Int          @default(19)
+  matchSource       String       @default("MANUAL")
+  needsConfirmation Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 
-  offer             Offer       @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  offer             Offer        @relation(fields: [offerId], references: [id], onDelete: Cascade)
   serviceItem       ServiceItem? @relation(fields: [serviceItemId], references: [id])
 }
 
@@ -318,6 +323,58 @@ model EmailDelivery {
   createdAt         DateTime @default(now())
 
   offer             Offer    @relation(fields: [offerId], references: [id], onDelete: Cascade)
+}
+
+model Invoice {
+  id               String          @id @default(cuid())
+  userId           String
+  clientId         String
+  companyProfileId String?
+  sourceOfferId    String?
+  invoiceNumber    String          @unique
+  type             String          @default("STANDARD")
+  title            String          @default("Rechnung")
+  subject          String
+  introText        String?
+  status           String          @default("DRAFT")
+  issueDate        DateTime
+  serviceDate      DateTime?
+  dueDate          DateTime?
+  currency         String          @default("EUR")
+  subtotalCents    Int             @default(0)
+  vatPercent       Int             @default(19)
+  vatAmountCents   Int             @default(0)
+  totalCents       Int             @default(0)
+  paymentTerms     String?
+  notes            String?
+  footerText       String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client           Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  companyProfile   CompanyProfile? @relation(fields: [companyProfileId], references: [id])
+  sourceOffer      Offer?          @relation(fields: [sourceOfferId], references: [id])
+  items            InvoiceItem[]
+}
+
+model InvoiceItem {
+  id             String       @id @default(cuid())
+  invoiceId      String
+  serviceItemId  String?
+  position       Int
+  title          String
+  description    String?
+  quantity       Float?
+  unit           String
+  unitPriceCents Int
+  totalCents     Int          @default(0)
+  vatPercent     Int          @default(19)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  invoice        Invoice      @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  serviceItem    ServiceItem? @relation(fields: [serviceItemId], references: [id])
 }
 
 model AdminLog {

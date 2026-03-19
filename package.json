@@ -11,7 +11,9 @@
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "next": "14.2.15",
+    "nodemailer": "^8.0.3",
     "pdfkit": "^0.15.2",
+    "puppeteer": "^24.39.1",
     "react": "^18",
     "react-dom": "^18",
     "zod": "^3.25.76"

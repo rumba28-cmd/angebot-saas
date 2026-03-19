@@ -6,6 +6,7 @@ const links = [
   { href: "/clients", label: "Kunden" },
   { href: "/catalog", label: "Preiskatalog" },
   { href: "/offers", label: "Angebote" },
+  { href: "/invoices", label: "Rechnungen" },
   { href: "/offers/new", label: "Neues Angebot" },
   { href: "/licenses", label: "Lizenz" },
   { href: "/admin", label: "Admin" }
