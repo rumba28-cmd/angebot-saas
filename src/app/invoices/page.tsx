@@ -25,7 +25,11 @@ export default async function InvoicesPage({
     <div className="stack">
       <div className="card">
         <div className="toolbar">
-          <h1>Rechnungen</h1>
+          <div>
+            <h1>Rechnungen</h1>
+            <div className="muted">Erstellen und verwalten Sie hier Ihre Rechnungen.</div>
+          </div>
+
           <div className="row">
             {statuses.map((s) => (
               <Link
@@ -56,6 +60,10 @@ export default async function InvoicesPage({
               <Link href={`/invoices/${invoice.id}`}>Öffnen</Link>
             </div>
           ))}
+
+          {invoices.length === 0 && (
+            <div className="muted">Noch keine Rechnungen vorhanden.</div>
+          )}
         </div>
       </div>
     </div>

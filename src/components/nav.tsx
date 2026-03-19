@@ -4,12 +4,11 @@ const links = [
   { href: "/", label: "Start" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/clients", label: "Kunden" },
+  { href: "/company", label: "Firma" },
   { href: "/catalog", label: "Preiskatalog" },
   { href: "/offers", label: "Angebote" },
   { href: "/invoices", label: "Rechnungen" },
-  { href: "/offers/new", label: "Neues Angebot" },
-  { href: "/licenses", label: "Lizenz" },
-  { href: "/admin", label: "Admin" }
+  { href: "/licenses", label: "Lizenz" }
 ];
 
 export function Nav() {
@@ -17,6 +16,7 @@ export function Nav() {
     <nav className="nav">
       <div className="container nav-inner">
         <div className="brand">Angebot SaaS</div>
+
         <div className="nav-links">
           {links.map((link) => (
             <Link key={link.href} href={link.href}>

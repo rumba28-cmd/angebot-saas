@@ -57,21 +57,23 @@ model CompanyProfile {
 }
 
 model Plan {
-  id              String         @id @default(cuid())
-  code            String         @unique
-  name            String
-  durationMonths  Int
-  deviceLimit     Int
-  priceCents      Int
-  currency        String         @default("EUR")
-  billingProvider String         @default("license_key")
-  stripePriceId   String?
-  isActive        Boolean        @default(true)
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id                       String         @id @default(cuid())
+  code                     String         @unique
+  name                     String
+  durationMonths           Int
+  deviceLimit              Int            @default(1)
+  seatLimit                Int            @default(1)
+  allowSameUserMultiDevice Boolean        @default(true)
+  priceCents               Int
+  currency                 String         @default("EUR")
+  billingProvider          String         @default("license_key")
+  stripePriceId            String?
+  isActive                 Boolean        @default(true)
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
 
-  subscriptions   Subscription[]
-  licenseKeys     LicenseKey[]
+  subscriptions            Subscription[]
+  licenseKeys              LicenseKey[]
 }
 
 model Subscription {

@@ -11,177 +11,74 @@ const MASTER_CATALOG = [
       ["innenwaende-streichen", "Innenwände streichen", "M2", "Vorbereitung der Oberfläche und zweimaliger Anstrich", "streichen,malen,wände,innenanstrich", "wände streichen,wände malen,neu streichen"],
       ["decken-streichen", "Decken streichen", "M2", "Deckenflächen grundieren und streichen", "decken streichen,decke malen", "zimmerdecke streichen,decke weiß streichen"],
       ["tapeten-entfernen", "Tapeten entfernen", "M2", "Alte Tapeten entfernen und entsorgen", "tapeten entfernen,alte tapete", "tapete abmachen,tapeten abziehen"],
-      ["risse-verspachteln", "Risse verspachteln", "METER", "Kleinere Risse schließen und glätten", "risse,spachteln,verspachteln", "risse schließen,wände spachteln"],
-      ["vollflaechig-spachteln", "Vollflächig spachteln", "M2", "Flächen vollflächig spachteln und schleifen", "spachteln,vollspachtelung,glätten", "wand glätten,q3,q4"],
-      ["tueren-lackieren", "Türen lackieren", "ITEM", "Lackierung von Innentüren", "türen lackieren,tür streichen", "innentür lackieren"],
-      ["fenster-lackieren", "Fenster lackieren", "ITEM", "Lackierung von Fensterrahmen", "fenster lackieren,fensterrahmen streichen", "fenster streichen"]
-    ]
-  },
-  {
-    name: "Trockenbau",
-    slug: "trockenbau",
-    sortOrder: 20,
-    templates: [
-      ["trockenbauwand-montieren", "Trockenbauwand montieren", "M2", "Montage einer Trockenbauwand inkl. Unterkonstruktion", "trockenbauwand,gipskartonwand,wände stellen", "rigipswand,trockenbau"],
-      ["gipskartonplatten-montieren", "Gipskartonplatten montieren", "M2", "Gipskartonplatten an Wand oder Decke montieren", "gipskarton,rigips,montieren", "platten montieren,rigipsplatten"],
-      ["decke-abhaengen", "Decke abhängen", "M2", "Abgehängte Decke montieren", "decke abhängen,unterdecke", "deckenabhängung"],
-      ["daemmung-einbauen", "Dämmung einbauen", "M2", "Dämmmaterial einbauen", "dämmung,dämmen,isolation", "isolierung"],
-      ["spachteln-q2", "Spachteln Q2", "M2", "Fugen- und Flächenspachtelung Q2", "q2,spachteln", "rigips spachteln"],
-      ["spachteln-q3", "Spachteln Q3", "M2", "Spachtelung Q3", "q3,spachteln", "feinspachtel"],
-      ["vorsatzschale-montieren", "Vorsatzschale montieren", "M2", "Montage einer Vorsatzschale", "vorsatzschale,trockenbau", "wand vorsetzen"]
+      ["risse-verspachteln", "Risse verspachteln", "METER", "Kleinere Risse schließen und glätten", "risse,spachteln,verspachteln", "risse schließen,wände spachteln"]
     ]
   },
   {
     name: "Bodenarbeiten",
     slug: "bodenarbeiten",
-    sortOrder: 30,
+    sortOrder: 20,
     templates: [
       ["laminat-verlegen", "Laminat verlegen", "M2", "Verlegung von Laminatboden", "laminat,boden verlegen", "laminat verlegen,neuer boden"],
       ["vinyl-verlegen", "Vinylboden verlegen", "M2", "Verlegung von Vinylboden", "vinyl,vinylboden,boden verlegen", "pvc verlegen"],
-      ["parkett-verlegen", "Parkett verlegen", "M2", "Verlegung von Parkettboden", "parkett,boden verlegen", "holzfußboden"],
-      ["teppich-verlegen", "Teppich verlegen", "M2", "Teppichboden verlegen", "teppich verlegen,teppichboden", "teppich"],
       ["alten-boden-entfernen", "Alten Boden entfernen", "M2", "Entfernung des bestehenden Bodenbelags", "boden entfernen,altbelag entfernen,demontage", "alten boden raus,bodenbelag entfernen"],
-      ["ausgleichsmasse", "Ausgleichsmasse auftragen", "M2", "Untergrund ausgleichen", "ausgleichsmasse,boden ausgleichen", "untergrund vorbereiten"],
-      ["sockelleisten-montieren", "Sockelleisten montieren", "METER", "Montage von Sockelleisten", "sockelleisten,montieren", "leisten anbringen"],
-      ["trittschalldaemmung", "Trittschalldämmung verlegen", "M2", "Verlegung von Trittschalldämmung", "trittschalldämmung,dämmung", "dämmung unter boden"]
+      ["sockelleisten-montieren", "Sockelleisten montieren", "METER", "Montage von Sockelleisten", "sockelleisten,montieren", "leisten anbringen"]
     ]
   },
   {
-    name: "Fliesenarbeiten",
-    slug: "fliesenarbeiten",
+    name: "Zäune / Zaunbau",
+    slug: "zaeune-zaunbau",
+    sortOrder: 30,
+    templates: [
+      ["doppelstabmattenzaun-montieren", "Doppelstabmattenzaun montieren", "METER", "Montage eines Doppelstabmattenzauns", "doppelstabmattenzaun,zaun montieren,zaunbau", "stabmattenzaun"],
+      ["maschendrahtzaun-montieren", "Maschendrahtzaun montieren", "METER", "Montage eines Maschendrahtzauns", "maschendrahtzaun,zaun montieren", "drahtzaun"],
+      ["holzzaun-montieren", "Holzzaun montieren", "METER", "Montage eines Holzzauns", "holzzaun,zaun montieren", "gartenzaun holz"],
+      ["wpc-zaun-montieren", "WPC-Zaun montieren", "METER", "Montage eines WPC-Zauns", "wpc zaun,zaun montieren", "kunststoffzaun"],
+      ["sichtschutzzaun-montieren", "Sichtschutzzaun montieren", "METER", "Montage eines Sichtschutzzauns", "sichtschutzzaun,sichtschutz", "zaun sichtschutz"],
+      ["zaunpfosten-setzen", "Zaunpfosten setzen", "ITEM", "Setzen von Zaunpfosten", "zaunpfosten,pfosten setzen", "pfosten betonieren"],
+      ["punktfundamente-fuer-zaun", "Punktfundamente für Zaun", "ITEM", "Herstellung von Punktfundamenten für Zaunanlagen", "fundament zaun,punktfundament", "fundament pfosten"],
+      ["gartentor-montieren", "Gartentor montieren", "ITEM", "Montage eines Gartentors", "gartentor,tor montieren", "pforte montieren"],
+      ["schiebetor-montieren", "Schiebetor montieren", "ITEM", "Montage eines Schiebetors", "schiebetor,tor montieren", "einfahrtstor"],
+      ["alten-zaun-demontieren", "Alten Zaun demontieren", "METER", "Demontage eines vorhandenen Zauns", "alten zaun entfernen,zaun demontieren", "zaun abbauen"],
+      ["alten-zaun-entsorgen", "Alten Zaun entsorgen", "FIXED", "Entsorgung eines demontierten Zauns", "zaun entsorgen,altmetall entsorgen", "zaun abtransport"],
+      ["zaun-reparatur", "Zaun reparieren", "HOUR", "Reparaturarbeiten am Zaun", "zaun reparieren,zaunreparatur", "pfosten reparieren"]
+    ]
+  },
+  {
+    name: "Garten / Landschaft",
+    slug: "garten-landschaft",
     sortOrder: 40,
     templates: [
-      ["wandfliesen-verlegen", "Wandfliesen verlegen", "M2", "Verlegung von Wandfliesen", "wandfliesen,fliesen verlegen", "bad fliesen,küche fliesen"],
-      ["bodenfliesen-verlegen", "Bodenfliesen verlegen", "M2", "Verlegung von Bodenfliesen", "bodenfliesen,fliesenboden", "fliesen verlegen"],
-      ["alte-fliesen-entfernen", "Alte Fliesen entfernen", "M2", "Alte Fliesen entfernen und entsorgen", "fliesen entfernen,alte fliesen", "fliesen abschlagen"],
-      ["untergrund-abdichten", "Untergrund abdichten", "M2", "Abdichtung im Nassbereich", "abdichten,abdichtung,bad abdichten", "dichtschlämme"],
-      ["fugen-erneuern", "Fugen erneuern", "METER", "Fugen ausbessern oder erneuern", "fugen erneuern,fugen", "silikonfugen"],
-      ["silikonfugen-ziehen", "Silikonfugen ziehen", "METER", "Neue Silikonfugen herstellen", "silikon,silikonfugen", "bad silikon"]
+      ["rasen-anlegen", "Rasen anlegen", "M2", "Neuanlage von Rasenflächen", "rasen anlegen,rasen neu", "grünfläche anlegen"],
+      ["rollrasen-verlegen", "Rollrasen verlegen", "M2", "Verlegung von Rollrasen", "rollrasen,rasen verlegen", "fertigrasen"],
+      ["hecke-pflanzen", "Hecke pflanzen", "METER", "Pflanzung einer Hecke", "hecke pflanzen,heckenpflanzung", "grenze bepflanzen"],
+      ["hecke-schneiden", "Hecke schneiden", "METER", "Schnitt von Hecken", "hecke schneiden,heckenschnitt", "sträucher schneiden"],
+      ["baeume-schneiden", "Bäume schneiden", "HOUR", "Rückschnitt von Bäumen", "bäume schneiden,baumschnitt", "astschnitt"],
+      ["baum-faellen", "Baum fällen", "ITEM", "Fällung eines Baumes", "baum fällen,baum entfernen", "baum abtragen"],
+      ["wurzel-entfernen", "Wurzel entfernen", "ITEM", "Entfernung einer Baumwurzel", "wurzel entfernen,wurzelstock", "stubben fräsen"],
+      ["beet-anlegen", "Beet anlegen", "M2", "Anlage von Beeten", "beet anlegen,gartenbeet", "pflanzbeet"],
+      ["unkraut-entfernen", "Unkraut entfernen", "M2", "Entfernung von Unkraut", "unkraut entfernen,beet reinigen", "gartenpflege"],
+      ["mulch-aufbringen", "Mulch aufbringen", "M2", "Aufbringen von Mulch", "mulch,holzschnitzel", "rindenmulch"],
+      ["pflanzen-setzen", "Pflanzen setzen", "ITEM", "Setzen von Pflanzen oder Sträuchern", "pflanzen setzen,sträucher pflanzen", "bepflanzung"],
+      ["gartenabfaelle-entsorgen", "Gartenabfälle entsorgen", "FIXED", "Abtransport und Entsorgung von Gartenabfällen", "gartenabfälle entsorgen,grünschnitt", "garten müll"],
+      ["gartenpflege-pauschal", "Gartenpflege pauschal", "FIXED", "Pauschale für Gartenpflege", "gartenpflege,pflege pauschal", "garten service"]
     ]
   },
   {
-    name: "Abriss / Demontage",
-    slug: "abriss-demontage",
+    name: "Außenanlagen / Pflaster",
+    slug: "aussenanlagen-pflaster",
     sortOrder: 50,
     templates: [
-      ["nichttragende-wand-abbrechen", "Nichttragende Wand abbrechen", "M2", "Abbruch einer nichttragenden Wand", "wand abbrechen,abbruch,demontage", "wand entfernen"],
-      ["tapeten-abreissen", "Tapeten abreißen", "M2", "Tapeten abreissen und entsorgen", "tapeten abreißen,tapeten entfernen", "tapeten abziehen"],
-      ["decke-demontieren", "Decke demontieren", "M2", "Deckenverkleidung entfernen", "decke demontieren,decke entfernen", "unterdecke entfernen"],
-      ["sanitaer-demontieren", "Sanitär demontieren", "ITEM", "Sanitärgegenstände demontieren", "sanitär demontieren,waschbecken ausbauen", "wc demontieren,dusche ausbauen"],
-      ["tueren-demontieren", "Türen demontieren", "ITEM", "Türen und Zargen demontieren", "türen demontieren,türen ausbauen", "zarge entfernen"],
-      ["bauschutt-verladen", "Bauschutt verladen", "FIXED", "Bauschutt aufnehmen und verladen", "bauschutt,verladen,schutt", "müll verladen"],
-      ["entruempelung", "Entrümpelung", "HOUR", "Entrümpelungsarbeiten nach Aufwand", "entrümpelung,aufräumen,ausräumen", "wohnung räumen"]
-    ]
-  },
-  {
-    name: "Maurer- und Putzarbeiten",
-    slug: "maurer-putzarbeiten",
-    sortOrder: 60,
-    templates: [
-      ["innenputz", "Innenputz auftragen", "M2", "Innenputz auf Wandflächen auftragen", "innenputz,putz", "wand verputzen"],
-      ["aussenputz", "Außenputz auftragen", "M2", "Außenputz auf Fassadenflächen auftragen", "außenputz,fassade putz", "fassade verputzen"],
-      ["schlitze-schliessen", "Schlitze schließen", "METER", "Installationsschlitze schließen", "schlitze schließen,putz reparieren", "schlitz verspachteln"],
-      ["loecher-schliessen", "Löcher schließen", "ITEM", "Kleinere Löcher fachgerecht schließen", "löcher schließen,reparatur", "bohrlöcher schließen"],
-      ["mauerwerk-kleinreparatur", "Kleinreparatur Mauerwerk", "HOUR", "Kleinreparaturen am Mauerwerk", "mauerwerk,reparatur", "mauer reparieren"]
-    ]
-  },
-  {
-    name: "Fassadenarbeiten",
-    slug: "fassadenarbeiten",
-    sortOrder: 70,
-    templates: [
-      ["fassadenreinigung", "Fassadenreinigung", "M2", "Reinigung der Fassadenflächen", "fassadenreinigung,fassade reinigen", "fassade sauber machen"],
-      ["fassadenanstrich", "Fassadenanstrich", "M2", "Anstrich der Fassade", "fassade streichen,fassadenanstrich", "fassade malen"],
-      ["fassadenspachtelung", "Fassadenspachtelung", "M2", "Spachtelarbeiten an der Fassade", "fassade spachteln,spachtelung", "fassadenreparatur"],
-      ["risse-sanieren", "Risse sanieren", "METER", "Sanierung von Rissen", "risse sanieren,risse fassade", "riss reparatur"],
-      ["geruestpauschale", "Gerüstpauschale", "FIXED", "Pauschale für Gerüst", "gerüst,gerüstpauschale", "arbeitsgerüst"],
-      ["schutzabdeckung", "Schutzabdeckung", "M2", "Abdeckung und Schutz von Flächen", "abdeckung,schutzfolie", "schutzarbeiten"]
-    ]
-  },
-  {
-    name: "Dacharbeiten",
-    slug: "dacharbeiten",
-    sortOrder: 80,
-    templates: [
-      ["dachreinigung", "Dachreinigung", "M2", "Reinigung der Dachfläche", "dachreinigung,dach reinigen", "dach sauber machen"],
-      ["dachreparatur", "Dachreparatur", "HOUR", "Reparaturarbeiten am Dach", "dachreparatur,dach reparieren", "ziegel reparieren"],
-      ["dachabdichtung", "Dachabdichtung", "M2", "Abdichtungsarbeiten am Dach", "dachabdichtung,abdichten", "dach dicht machen"],
-      ["dachrinne-reinigen", "Dachrinne reinigen", "METER", "Reinigung der Dachrinne", "dachrinne reinigen,rinnenreinigung", "rinne sauber machen"],
-      ["fallrohr-montieren", "Fallrohr montieren", "METER", "Montage von Fallrohren", "fallrohr,montieren", "regenrohr montieren"]
-    ]
-  },
-  {
-    name: "Sanitär",
-    slug: "sanitaer",
-    sortOrder: 90,
-    templates: [
-      ["waschbecken-montieren", "Waschbecken montieren", "ITEM", "Montage eines Waschbeckens", "waschbecken montieren,waschbecken", "becken einbauen"],
-      ["wc-montieren", "WC montieren", "ITEM", "Montage eines WC", "wc montieren,toilette montieren", "toilette einbauen"],
-      ["dusche-montieren", "Dusche montieren", "ITEM", "Montage einer Dusche", "dusche montieren,dusche einbauen", "duschkabine"],
-      ["armaturen-austauschen", "Armaturen austauschen", "ITEM", "Austausch von Armaturen", "armaturen austauschen,wasserhahn", "mischer austauschen"],
-      ["leitungen-verlegen", "Leitungen verlegen", "METER", "Verlegung von Wasserleitungen", "leitungen verlegen,wasserleitungen", "rohre verlegen"],
-      ["silikonabdichtung-bad", "Silikonabdichtung Bad", "METER", "Silikonarbeiten im Bad", "silikon bad,abdichten bad", "fugen bad"]
-    ]
-  },
-  {
-    name: "Elektro",
-    slug: "elektro",
-    sortOrder: 100,
-    templates: [
-      ["steckdose-montieren", "Steckdose montieren", "ITEM", "Montage einer Steckdose", "steckdose montieren,steckdose", "dose montieren"],
-      ["schalter-montieren", "Schalter montieren", "ITEM", "Montage eines Schalters", "schalter montieren,lichtschalter", "schalter austauschen"],
-      ["leitungen-elektro", "Leitungen verlegen", "METER", "Verlegung von Elektroleitungen", "leitungen verlegen,elektro", "kabel verlegen"],
-      ["lampenanschluss", "Lampenanschluss", "ITEM", "Anschluss einer Lampe", "lampe anschließen,lampenanschluss", "licht anschließen"],
-      ["elektro-kleinreparatur", "Kleinreparatur Elektro", "HOUR", "Kleinreparaturen im Elektrobereich", "elektro reparatur,kabel reparatur", "strom reparatur"]
-    ]
-  },
-  {
-    name: "Fenster / Türen",
-    slug: "fenster-tueren",
-    sortOrder: 110,
-    templates: [
-      ["innentuer-montieren", "Innentür montieren", "ITEM", "Montage einer Innentür", "innentür montieren,tür montieren", "tür einbauen"],
-      ["zarge-montieren", "Zarge montieren", "ITEM", "Montage einer Türzarge", "zarge montieren,türzarge", "rahmen montieren"],
-      ["fenster-ausbauen", "Fenster ausbauen", "ITEM", "Ausbau eines Fensters", "fenster ausbauen,fenster entfernen", "altes fenster raus"],
-      ["fenster-einbauen", "Fenster einbauen", "ITEM", "Einbau eines Fensters", "fenster einbauen,fenster montieren", "neues fenster"],
-      ["abdichtung-fenster", "Abdichtungsarbeiten Fenster", "METER", "Abdichtung im Fensterbereich", "fenster abdichten,abdichtung fenster", "fuge fenster"]
-    ]
-  },
-  {
-    name: "Reinigung / Entsorgung / Transport",
-    slug: "reinigung-entsorgung-transport",
-    sortOrder: 120,
-    templates: [
-      ["bauschutt-entsorgen", "Bauschutt entsorgen", "FIXED", "Abtransport und Entsorgung von Bauschutt", "entsorgung,bauschutt,müll,transport", "schutt entsorgen,abfall entsorgen"],
-      ["containerpauschale", "Containerpauschale", "FIXED", "Pauschale für Container", "container,containerpauschale", "mulde"],
-      ["materialtransport", "Materialtransport", "FIXED", "Transport von Material", "transport,materialtransport", "lieferung material"],
-      ["endreinigung-baustelle", "Endreinigung Baustelle", "M2", "Endreinigung der Baustelle", "endreinigung,baustelle reinigen", "schlussreinigung"],
-      ["abdeckarbeiten", "Abdeckarbeiten", "M2", "Schutz und Abdeckung vor Arbeitsbeginn", "abdeckarbeiten,abdecken,schutzfolie", "folie auslegen"]
-    ]
-  },
-  {
-    name: "Außenanlagen / Garten",
-    slug: "aussenanlagen-garten",
-    sortOrder: 130,
-    templates: [
-      ["pflaster-verlegen", "Pflaster verlegen", "M2", "Pflasterarbeiten", "pflaster verlegen,pflasterarbeiten", "steine verlegen"],
+      ["pflaster-verlegen", "Pflaster verlegen", "M2", "Verlegung von Pflastersteinen", "pflaster verlegen,pflasterarbeiten", "steine verlegen"],
       ["randsteine-setzen", "Randsteine setzen", "METER", "Setzen von Randsteinen", "randsteine setzen,bordstein", "kantenstein"],
-      ["erdarbeiten", "Erdarbeiten", "HOUR", "Erdarbeiten nach Aufwand", "erdarbeiten,graben,aushub", "bodenarbeiten außen"],
-      ["zaun-montieren", "Zaun montieren", "METER", "Montage eines Zauns", "zaun montieren,zaunbau", "gartenzaun"],
-      ["gartenabfaelle-entsorgen", "Gartenabfälle entsorgen", "FIXED", "Entsorgung von Gartenabfällen", "gartenabfälle entsorgen,grünschnitt", "garten müll"]
-    ]
-  },
-  {
-    name: "Pauschalen / Zusatzleistungen",
-    slug: "pauschalen-zusatzleistungen",
-    sortOrder: 140,
-    templates: [
-      ["anfahrtspauschale", "Anfahrtspauschale", "FIXED", "Pauschale für Anfahrt", "anfahrt,anfahrtspauschale", "fahrkosten"],
-      ["baustelleneinrichtung", "Baustelleneinrichtung", "FIXED", "Einrichtung der Baustelle", "baustelleneinrichtung,einrichtung", "baustelle vorbereiten"],
-      ["kleinmaterialpauschale", "Kleinmaterialpauschale", "FIXED", "Pauschale für Kleinmaterial", "kleinmaterial,materialpauschale", "verbrauchsmaterial"],
-      ["aufmass-vor-ort", "Aufmaß vor Ort", "FIXED", "Aufmaß am Objekt", "aufmaß,ausmessen", "maß nehmen"],
-      ["stundenlohn-helfer", "Stundenlohn Helfer", "HOUR", "Helferstunde", "helfer,stundenlohn", "arbeitsstunde"],
-      ["stundenlohn-facharbeiter", "Stundenlohn Facharbeiter", "HOUR", "Facharbeiterstunde", "facharbeiter,stundenlohn", "meisterstunde"]
+      ["terrasse-bauen", "Terrasse bauen", "M2", "Herstellung einer Terrasse", "terrasse bauen,terrassenbau", "terrassenplatten"],
+      ["terrassenplatten-verlegen", "Terrassenplatten verlegen", "M2", "Verlegung von Terrassenplatten", "terrassenplatten verlegen,platten verlegen", "terrasse fliesen außen"],
+      ["drainage-verlegen", "Drainage verlegen", "METER", "Verlegung einer Drainage", "drainage verlegen,wasser ableiten", "entwässerung"],
+      ["sichtschutz-montieren", "Sichtschutz montieren", "METER", "Montage eines Sichtschutzes", "sichtschutz montieren,sichtschutz", "garten sichtschutz"],
+      ["carport-montieren", "Carport montieren", "ITEM", "Montage eines Carports", "carport montieren,carport", "unterstand auto"],
+      ["pergola-montieren", "Pergola montieren", "ITEM", "Montage einer Pergola", "pergola montieren,pergola", "garten pergola"],
+      ["gartenhaus-montieren", "Gartenhaus montieren", "ITEM", "Montage eines Gartenhauses", "gartenhaus montieren,gartenhaus", "gerätehaus"],
+      ["aussenbereich-reinigen", "Außenbereich reinigen", "M2", "Reinigung von Außenflächen", "außenbereich reinigen,hof reinigen", "terrasse reinigen"]
     ]
   }
 ] as const;
@@ -204,7 +101,8 @@ async function upsertMasterCatalog() {
     });
 
     for (let i = 0; i < category.templates.length; i++) {
-      const [slug, title, unit, description, keywordsText, synonymsText] = category.templates[i];
+      const [slug, title, unit, description, keywordsText, synonymsText] =
+        category.templates[i];
 
       await prisma.masterServiceTemplate.upsert({
         where: { slug },
@@ -241,7 +139,7 @@ async function main() {
 
   await upsertMasterCatalog();
 
-  const admin = await prisma.user.upsert({
+  await prisma.user.upsert({
     where: { email: "admin@angebot.de" },
     update: {},
     create: {
@@ -271,18 +169,56 @@ async function main() {
       addressLine1: "Musterstraße 10",
       postalCode: "10115",
       city: "Berlin",
+      country: "Deutschland",
       phone: "+49 30 123456",
       email: demoEmail,
+      taxNumber: "12/345/67890",
+      vatNumber: "DE123456789",
+      bankName: "Musterbank",
+      iban: "DE02120300000000202051",
+      bic: "BYLADEM1001",
       defaultFooter: "Mit freundlichen Grüßen\nMax Bau GmbH",
       legalText: "Dieses Angebot ist 14 Tage gültig."
     }
   });
 
   const plans = [
-    { code: "MONO_MONTH_1", name: "1 Gerät / 1 Monat", durationMonths: 1, deviceLimit: 1, priceCents: 2900 },
-    { code: "MONO_YEAR_1", name: "1 Gerät / 1 Jahr", durationMonths: 12, deviceLimit: 1, priceCents: 29000 },
-    { code: "TEAM_MONTH_3", name: "3 Geräte / 1 Monat", durationMonths: 1, deviceLimit: 3, priceCents: 5900 },
-    { code: "TEAM_YEAR_3", name: "3 Geräte / 1 Jahr", durationMonths: 12, deviceLimit: 3, priceCents: 59000 }
+    {
+      code: "MONO_MONTH_1",
+      name: "1 Benutzer / 1 Monat",
+      durationMonths: 1,
+      deviceLimit: 1,
+      seatLimit: 1,
+      allowSameUserMultiDevice: true,
+      priceCents: 2900
+    },
+    {
+      code: "MONO_YEAR_1",
+      name: "1 Benutzer / 1 Jahr",
+      durationMonths: 12,
+      deviceLimit: 1,
+      seatLimit: 1,
+      allowSameUserMultiDevice: true,
+      priceCents: 29000
+    },
+    {
+      code: "TEAM_MONTH_3",
+      name: "3 Benutzer / 1 Monat",
+      durationMonths: 1,
+      deviceLimit: 3,
+      seatLimit: 3,
+      allowSameUserMultiDevice: true,
+      priceCents: 5900
+    },
+    {
+      code: "TEAM_YEAR_3",
+      name: "3 Benutzer / 1 Jahr",
+      durationMonths: 12,
+      deviceLimit: 3,
+      seatLimit: 3,
+      allowSameUserMultiDevice: true,
+      priceCents: 59000
+    }
   ];
 
   for (const p of plans) {
@@ -293,11 +229,17 @@ async function main() {
     });
   }
 
-  const activePlan = await prisma.plan.findUnique({ where: { code: "TEAM_YEAR_3" } });
+  const activePlan = await prisma.plan.findUnique({
+    where: { code: "TEAM_YEAR_3" }
+  });
 
   if (activePlan) {
     const existing = await prisma.subscription.findFirst({
-      where: { userId: user.id, planId: activePlan.id, status: "ACTIVE" }
+      where: {
+        userId: user.id,
+        planId: activePlan.id,
+        status: "ACTIVE"
+      }
     });
 
     if (!existing) {
@@ -337,7 +279,15 @@ async function main() {
     "Laminat verlegen",
     "Alten Boden entfernen",
     "Risse verspachteln",
-    "Bauschutt entsorgen"
+    "Doppelstabmattenzaun montieren",
+    "Holzzaun montieren",
+    "Rasen anlegen",
+    "Pflaster verlegen",
+    "Carport montieren",
+    "Pergola montieren",
+    "Gartenhaus montieren",
+    "Drainage verlegen",
+    "Außenbereich reinigen"
   ];
 
   for (let i = 0; i < starterTitles.length; i++) {
@@ -360,7 +310,15 @@ async function main() {
         "Laminat verlegen": 2400,
         "Alten Boden entfernen": 800,
         "Risse verspachteln": 600,
-        "Bauschutt entsorgen": 18000
+        "Doppelstabmattenzaun montieren": 9500,
+        "Holzzaun montieren": 12000,
+        "Rasen anlegen": 1200,
+        "Pflaster verlegen": 6500,
+        "Carport montieren": 350000,
+        "Pergola montieren": 220000,
+        "Gartenhaus montieren": 280000,
+        "Drainage verlegen": 4500,
+        "Außenbereich reinigen": 900
       };
 
       await prisma.serviceItem.create({
@@ -404,8 +362,7 @@ async function main() {
   console.log("Seed completed");
   console.log("Master catalog seeded:", await prisma.masterServiceTemplate.count());
   console.log("Demo user:", demoEmail);
-  console.log("Admin user: admin@angebot.de");
-  console.log("Open: http://localhost:3000/catalog");
+  console.log("Open: http://localhost:3000");
 }
 
 main()

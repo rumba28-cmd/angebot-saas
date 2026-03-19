@@ -1,5 +1,5 @@
-import { AdminKeyGenerator } from "@/components/admin-key-generator";
+import { notFound } from "next/navigation";
 
 export default function AdminPage() {
-  return <AdminKeyGenerator />;
+  notFound();
 }
